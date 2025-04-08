@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Sentiment and Emotion Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Main Header -->
+    <h1>Instagram Sentiment and Emotion Analysis</h1>
+    
+    <!-- Form to enter Instagram URL -->
+    <form method="POST">
+        <label for="url">Enter Instagram Post URL:</label>
+        <input type="text" id="url" name="url" required placeholder="Paste Instagram Post URL here">
+        <button type="submit">Analyze</button>
+    </form>
+
+    <!-- Error Message -->
+    {% if error %}
+        <div class="error">
+            <p>{{ error }}</p>
+        </div>
+    {% endif %}
+
+    <!-- Results Section -->
+    {% if result %}
+        <div class="results">
+            <h2>Analysis Results:</h2>
+            
+            <!-- Post Caption Sentiment and Emotion -->
+            <p><strong>Caption:</strong> {{ result.caption }}</p>
+            <p><strong>Sentiment:</strong> <span class="sentiment {{ result.caption_sentiment }}">{{ result.caption_sentiment }}</span></p>
+            <p><strong>Emotion:</strong> <span class="emotion">{{ result.caption_emotion }}</span></p>
+
+            <!-- Comments Sentiment and Emotion Analysis -->
+            <div class="comments">
+                <h3>Top Comments Analysis:</h3>
+                <ul>
+                    {% for comment in result.comments %}
+                        <li>
+                            <p><strong>Comment:</strong> {{ comment.text }}</p>
+                            <p><strong>Sentiment:</strong> <span class="sentiment {{ comment.sentiment }}">{{ comment.sentiment }}</span></p>
+                            <p><strong>Emotion:</strong> <span class="emotion">{{ comment.emotion }}</span></p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Word Cloud Image -->
+            <div class="visuals">
+                <h3>Word Cloud:</h3>
+                <img src="{{ result.wordcloud }}" alt="Word Cloud">
+            </div>
+
+            <!-- Emotion Pie Chart -->
+            <div class="visuals">
+                <h3>Emotion Pie Chart:</h3>
+                <img src="{{ result.piechart }}" alt="Emotion Pie Chart">
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Footer -->
+    <footer>
+        <p>Developed by Your Name | Instagram Sentiment and Emotion Analysis</p>
+    </footer>
+</body>
+</html>
